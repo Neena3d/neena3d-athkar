@@ -261,10 +261,10 @@
         <button class="play-btn" id="playBtn" onclick="playSelectedAudio()">▶️ تشغيل الأذكار</button>
       </div>
       <audio id="azkarAudio" controls preload="none">
-        <source id="audioSource" src="morning-azkar.mp3" type="audio/mpeg" />
+        <source id="audioSource" src="morning-athkar.mp3" type="audio/mpeg" />
         المتصفح لا يدعم تشغيل الصوت.
       </audio>
-      <p class="note">ضع ملف صوت الصباح باسم morning-azkar.mp3 وملف صوت المساء باسم evening-azkar.mp3 في نفس مجلد ملف HTML.</p>
+      <p class="note">ضع ملف صوت الصباح باسم morning-athkar.mp3 وملف صوت المساء باسم evening-athkar.mp3 في نفس مجلد ملف HTML.</p>
     </section>
 
     <section id="morning" class="section-card">
@@ -316,9 +316,8 @@
       <p>منتج من Neena.3D. امسح التاغ وافتح الأذكار مباشرة من الهاتف.</p>
       <div class="links">
         <a class="link-btn" href="https://www.instagram.com/neena.3d/" target="_blank">Instagram @Neena.3D</a>
-        <a class="link-btn secondary" href="https://www.instagram.com/neena.3d" target="_blank">طلب عبر واتساب</a>
+        <a class="link-btn secondary" href="https://wa.me/971507522787" target="_blank">طلب عبر واتساب</a>
       </div>
-      <p class="note">غيّر رقم الواتساب داخل الكود إلى رقمك.</p>
     </section>
 
     <footer>
@@ -338,7 +337,7 @@
 
       selectedAzkar = type;
       audio.pause();
-      source.src = type === 'morning' ? 'morning-azkar.mp3' : 'evening-azkar.mp3';
+      source.src = type === 'morning' ? 'morning-athkar.mp3' : 'evening-athkar.mp3';
       audio.load();
 
       if (type === 'morning') {
