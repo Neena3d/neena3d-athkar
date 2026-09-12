@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Neena.3D | أذكار الصباح والمساء</title>
+  <title>Neena.3D | الأذكار اليومية وأذكار السفر</title>
   <style>
     :root {
       --bg: #f7f2e9;
@@ -83,6 +83,42 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin: 18px 0;
+    }
+
+    .main-choices {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .choice-card {
+      border: 0;
+      min-height: 190px;
+      padding: 24px 18px;
+      border-radius: 24px;
+      background: var(--card);
+      color: var(--text);
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      text-align: center;
+      font-family: inherit;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .choice-card:hover { transform: translateY(-4px); }
+    .choice-card .icon { display: block; font-size: 52px; margin-bottom: 8px; }
+    .choice-card strong { display: block; color: var(--green); font-size: 23px; }
+    .choice-card small { color: var(--muted); font-size: 14px; }
+
+    .back-btn {
+      border: 0;
+      background: transparent;
+      color: var(--green);
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+      padding: 10px 2px 2px;
     }
 
     .tab {
@@ -238,26 +274,46 @@
       font-size: 13px;
       margin-top: 22px;
     }
+
+    @media (max-width: 560px) {
+      .main-choices { grid-template-columns: 1fr; }
+      .choice-card { min-height: 155px; }
+    }
   </style>
 </head>
 <body>
   <main class="wrap">
     <section class="hero">
       <div class="brand">Neena.3D</div>
-      <h1>أذكار الصباح والمساء</h1>
-      <p class="subtitle">صفحة خفيفة وسريعة مناسبة للـ NFC Tag. افتحها من الهاتف واقرأ الأذكار بسهولة.</p>
+      <h1>حصنك من الأذكار</h1>
+      <p class="subtitle">اختر القسم الذي تريده، واقرأ الأذكار أو استمع إليها بسهولة.</p>
     </section>
 
-    <div class="tabs">
+    <section id="homeScreen" class="main-choices">
+      <button class="choice-card" onclick="openCategory('daily')">
+        <span class="icon">📿</span>
+        <strong>الأذكار اليومية</strong>
+        <small>أذكار الصباح والمساء</small>
+      </button>
+      <button class="choice-card" onclick="openCategory('travel')">
+        <span class="icon">✈️🚘</span>
+        <strong>أذكار السفر</strong>
+        <small>دعاء الركوب والسفر والعودة</small>
+      </button>
+    </section>
+
+    <div id="dailyTabs" class="tabs hidden">
       <button class="tab active" onclick="showSection('morning', this)">☀️ أذكار الصباح</button>
       <button class="tab" onclick="showSection('evening', this)">🌙 أذكار المساء</button>
     </div>
 
-    <section class="audio-card">
+    <button id="backBtn" class="back-btn hidden" onclick="goHome()">→ العودة إلى الصفحة الرئيسية</button>
+
+    <section id="audioCard" class="audio-card hidden">
       <h2 id="smartTitle">🎧 الاستماع للأذكار</h2>
       <div class="smart-audio-box">
         <span class="time-pill" id="timeStatus">جاري تحديد الوقت...</span>
-        <p class="note" id="audioNote">الصفحة تختار أذكار الصباح أو المساء حسب وقت الهاتف.</p>
+        <p class="note" id="audioNote">اختر القسم الذي ترغب في الاستماع إليه.</p>
         <button class="play-btn" id="playBtn" onclick="playSelectedAudio()">▶️ تشغيل الأذكار</button>
       </div>
       <audio id="azkarAudio" controls preload="none">
@@ -310,8 +366,26 @@
       </div>
     </section>
 
+    <section id="travel" class="section-card hidden">
+      <h2>✈️ أذكار السفر</h2>
+      <div class="azkar-list">
+        <article class="zekr" data-total="1">
+          <div class="zekr-text">بِسْمِ اللهِ، وَالْحَمْدُ للهِ، سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ، وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ.</div>
+          <div class="zekr-info"><span>دعاء الركوب</span><button class="count-btn" onclick="countZekr(this)">قرأت 0 / 1</button></div>
+        </article>
+        <article class="zekr" data-total="1">
+          <div class="zekr-text">اللَّهُمَّ إِنَّا نَسْأَلُكَ فِي سَفَرِنَا هَذَا الْبِرَّ وَالتَّقْوَى، وَمِنَ الْعَمَلِ مَا تَرْضَى، اللَّهُمَّ هَوِّنْ عَلَيْنَا سَفَرَنَا هَذَا وَاطْوِ عَنَّا بُعْدَهُ.</div>
+          <div class="zekr-info"><span>دعاء السفر</span><button class="count-btn" onclick="countZekr(this)">قرأت 0 / 1</button></div>
+        </article>
+        <article class="zekr" data-total="1">
+          <div class="zekr-text">آيِبُونَ، تَائِبُونَ، عَابِدُونَ، لِرَبِّنَا حَامِدُونَ.</div>
+          <div class="zekr-info"><span>عند العودة من السفر</span><button class="count-btn" onclick="countZekr(this)">قرأت 0 / 1</button></div>
+        </article>
+      </div>
+    </section>
+
     <section class="order-card">
-      <h2>📿 NFC Azkar Tag</h2>
+      <h2>📿 NFC Athkar Tag</h2>
       <p>منتج من Neena.3D. امسح التاغ وافتح الأذكار مباشرة من الهاتف.</p>
       <div class="links">
         <a class="link-btn" href="https://www.instagram.com/neena.3d/" target="_blank">Instagram @Neena.3D</a>
@@ -326,33 +400,72 @@
 
   <script>
     let selectedAzkar = 'morning';
+    const audioFiles = {
+      morning: 'morning-athkar.mp3',
+      evening: 'evening-athkar.mp3',
+      travel: 'travel-athkar.mp3'
+    };
+
+    const azkarNames = {
+      morning: 'أذكار الصباح',
+      evening: 'أذكار المساء',
+      travel: 'أذكار السفر'
+    };
+
+    function updatePlayButton(isPlaying) {
+      const playBtn = document.getElementById('playBtn');
+      playBtn.textContent = (isPlaying ? '⏸️ إيقاف ' : '▶️ تشغيل ') + azkarNames[selectedAzkar];
+      playBtn.setAttribute('aria-pressed', String(isPlaying));
+    }
 
     function setAudio(type) {
       const audio = document.getElementById('azkarAudio');
       const source = document.getElementById('audioSource');
-      const playBtn = document.getElementById('playBtn');
       const smartTitle = document.getElementById('smartTitle');
       const audioNote = document.getElementById('audioNote');
 
       selectedAzkar = type;
       audio.pause();
-      source.src = type === 'morning' ? 'morning-athkar.mp3' : 'evening-athkar.mp3';
+      source.src = audioFiles[type];
       audio.load();
 
-      if (type === 'morning') {
-        playBtn.textContent = '▶️ تشغيل أذكار الصباح';
-        smartTitle.textContent = '🎧 أذكار الصباح جاهزة';
-        audioNote.textContent = 'تم اختيار أذكار الصباح حسب وقت الهاتف.';
+      updatePlayButton(false);
+      smartTitle.textContent = '🎧 ' + azkarNames[type];
+      audioNote.textContent = 'يمكنك الاستماع إلى المقطع الصوتي الخاص بهذا القسم.';
+    }
+
+    function hideAllSections() {
+      ['morning', 'evening', 'travel'].forEach(id => document.getElementById(id).classList.add('hidden'));
+    }
+
+    function openCategory(category) {
+      document.getElementById('homeScreen').classList.add('hidden');
+      document.getElementById('backBtn').classList.remove('hidden');
+      document.getElementById('audioCard').classList.remove('hidden');
+      hideAllSections();
+      if (category === 'daily') {
+        document.getElementById('dailyTabs').classList.remove('hidden');
+        openByTime();
       } else {
-        playBtn.textContent = '▶️ تشغيل أذكار المساء';
-        smartTitle.textContent = '🎧 أذكار المساء جاهزة';
-        audioNote.textContent = 'تم اختيار أذكار المساء حسب وقت الهاتف.';
+        document.getElementById('dailyTabs').classList.add('hidden');
+        document.getElementById('travel').classList.remove('hidden');
+        document.getElementById('timeStatus').textContent = 'أذكار السفر';
+        setAudio('travel');
+        document.getElementById('audioNote').textContent = 'يمكنك الاستماع إلى أذكار السفر.';
       }
     }
 
+    function goHome() {
+      hideAllSections();
+      document.getElementById('dailyTabs').classList.add('hidden');
+      document.getElementById('audioCard').classList.add('hidden');
+      document.getElementById('backBtn').classList.add('hidden');
+      document.getElementById('homeScreen').classList.remove('hidden');
+      document.getElementById('azkarAudio').pause();
+    }
+
     function showSection(id, btn) {
-      document.getElementById('morning').classList.add('hidden');
-      document.getElementById('evening').classList.add('hidden');
+      hideAllSections();
       document.getElementById(id).classList.remove('hidden');
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       if (btn) btn.classList.add('active');
@@ -362,9 +475,13 @@
 
     function playSelectedAudio() {
       const audio = document.getElementById('azkarAudio');
-      audio.play().catch(() => {
-        alert('اضغط زر التشغيل داخل مشغل الصوت إذا لم يبدأ الصوت.');
-      });
+      if (audio.paused) {
+        audio.play().catch(() => {
+          alert('اضغط زر التشغيل داخل مشغل الصوت إذا لم يبدأ الصوت.');
+        });
+      } else {
+        audio.pause();
+      }
     }
 
     function openByTime() {
@@ -394,7 +511,15 @@
       else card.classList.remove('done');
     }
 
-    window.addEventListener('load', openByTime);
+    const azkarAudio = document.getElementById('azkarAudio');
+    azkarAudio.addEventListener('play', () => updatePlayButton(true));
+    azkarAudio.addEventListener('pause', () => updatePlayButton(false));
+    azkarAudio.addEventListener('ended', () => {
+      azkarAudio.currentTime = 0;
+      updatePlayButton(false);
+    });
+
+    window.addEventListener('load', goHome);
   </script>
 </body>
 </html>
